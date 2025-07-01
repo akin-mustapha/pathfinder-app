@@ -1,0 +1,12 @@
+# Master file to run the entire local environment.
+# Define services for Nginx, each microservice, and local infrastructure like databases.
+version: '3.8'
+
+services:
+  nginx-gateway:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    # ... add depends_on for services
