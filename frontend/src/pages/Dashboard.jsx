@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { 
-    PieChart, Pie, Cell, BarChart, Bar, LineChart, Line, 
-    XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid 
-} from 'recharts';
-import { Book, CheckCircle, FileText, AlertTriangle, Loader2 } from 'lucide-react';
-import KPICard from '../components/dashboard/KPICard';
+import { Loader2, AlertTriangle } from 'lucide-react';
+import DashboardHeader from '../components/dashboard/DashboardHeader';
+import DashboardKPICards from '../components/dashboard/DashboardKPICards';
+import DashboardRecentActivity from '../components/dashboard/DashboardRecentActivity';
+import DashboardStatusPie from '../components/dashboard/DashboardStatusPie';
+import DashboardRoadmapProgress from '../components/dashboard/DashboardRoadmapProgress';
 import StreakHeatmap from '../components/StreakHeatmap';
 
 // --- MOCK API DATA ---
@@ -75,78 +75,16 @@ const Dashboard = () => {
 
     return (
         <>
-            <header className="dashboard-header">
-                <h1 className="dashboard-title">Dashboard</h1>
-                <p className="dashboard-subtitle">A snapshot of your learning journey.</p>
-            </header>
-            
-            {/* KPI Cards now use the KPICard component which should also be updated to use semantic classes */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                <KPICard 
-                    title="Total Roadmaps" 
-                    value={data.kpis.totalRoadmaps} 
-                    icon={<Book size={24} />} 
-                    color="var(--color-primary)"
-                    linkTo="/roadmaps"
-                />
-                <KPICard 
-                    title="Topics Completed" 
-                    value={data.kpis.topicsCompleted} 
-                    icon={<CheckCircle size={24} />} 
-                    color="var(--color-text-accent)"
-                    unit="topics"
-                    linkTo="/kanban"
-                />
-                <KPICard 
-                    title="Notes Created" 
-                    value={data.kpis.notesCreated} 
-                    icon={<FileText size={24} />} 
-                    color="var(--color-primary-focus)"
-                    linkTo="/kb"
-                />
-            </div>
+            <DashboardHeader />
+            <DashboardKPICards kpis={data.kpis} />
             <div className="dashboard-main-grid">
                 <div className="dashboard-main-col">
                     <StreakHeatmap />
-                    <div className="dashboard-card">
-                        <h3 className="dashboard-card-title">Recent Activity (Last 7 Days)</h3>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <LineChart data={data.recentActivity} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-bg-muted)" />
-                                <XAxis dataKey="date" stroke="var(--color-text-muted)" fontSize={12} />
-                                <YAxis stroke="var(--color-text-muted)" fontSize={12} />
-                                <Tooltip contentStyle={{ backgroundColor: 'var(--color-bg-surface)', border: '1px solid var(--color-bg-muted)', borderRadius: 'var(--border-radius-base)' }} />
-                                <Legend wrapperStyle={{fontSize: "14px"}} />
-                                <Line type="monotone" dataKey="topics" name="Topics Completed" stroke="var(--color-text-accent)" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }}/>
-                            </LineChart>
-                        </ResponsiveContainer>
-                    </div>
+                    <DashboardRecentActivity data={data.recentActivity} />
                 </div>
                 <div className="dashboard-side-col">
-                    <div className="dashboard-card">
-                        <h3 className="dashboard-card-title">Topic Status Breakdown</h3>
-                        <ResponsiveContainer width="100%" height={250}>
-                            <PieChart>
-                                <Pie data={data.topicStatus} cx="50%" cy="50%" innerRadius={60} outerRadius={90} dataKey="value" nameKey="name">
-                                    {data.topicStatus.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} stroke={entry.color} />)}
-                                </Pie>
-                                <Tooltip contentStyle={{ backgroundColor: 'var(--color-bg-surface)', border: '1px solid var(--color-bg-muted)', borderRadius: 'var(--border-radius-base)' }} itemStyle={{ color: 'var(--color-text-base)' }} />
-                                <Legend wrapperStyle={{fontSize: "14px"}}/>
-                            </PieChart>
-                        </ResponsiveContainer>
-                    </div>
-                    <div className="dashboard-card">
-                         <h3 className="dashboard-card-title">Roadmap Progress</h3>
-                         <ResponsiveContainer width="100%" height={300}>
-                            <BarChart data={data.roadmapProgress} layout="vertical" margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-bg-muted)" />
-                                <XAxis type="number" stroke="var(--color-text-muted)" fontSize={12} domain={[0, 100]} unit="%"/>
-                                <YAxis type="category" dataKey="title" stroke="var(--color-text-muted)" fontSize={12} width={80} />
-                                <Tooltip contentStyle={{ backgroundColor: 'var(--color-bg-surface)', border: '1px solid var(--color-bg-muted)', borderRadius: 'var(--border-radius-base)' }} cursor={{ fill: 'rgba(var(--color-primary-rgb), 0.1)' }}/>
-                                <Bar dataKey="progress" fill="var(--color-primary)" name="Progress" radius={[0, 4, 4, 0]} barSize={20} />
-                            </BarChart>
-                         </ResponsiveContainer>
-                    </div>
+                    <DashboardStatusPie data={data.topicStatus} />
+                    <DashboardRoadmapProgress data={data.roadmapProgress} />
                 </div>
             </div>
         </>
