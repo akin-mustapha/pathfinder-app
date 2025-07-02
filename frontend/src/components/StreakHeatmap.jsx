@@ -78,13 +78,13 @@ const StreakHeatmap = () => {
     }, [contributions]);
 
     return (
-        <div className="card w-full max-w-3xl relative" style={{ minHeight: 220 }}>
-            <h3 className="text-lg font-semibold mb-4">Learning Streak</h3>
+        <div className="card heatmap-container">
+            <h3 className="heatmap-title">Learning Streak</h3>
             <div className="flex">
                 <div className="flex flex-col justify-around text-xs text-text-muted pr-2 py-1 h-32">
-                    <span>Mon</span><span>Wed</span><span>Fri</span>
+                    <span>Mon</span><span>Tue</span><span>Wed</span><span>Thur</span><span>Fri</span><span>Sat</span><span>Sun</span>
                 </div>
-                <div className="flex-grow relative">
+                <div className="flex-grow relative overflow-x-auto">
                     <div className="relative" style={{ height: MONTH_LABEL_HEIGHT }}>{monthLabels}</div>
                     <div className="grid grid-flow-col grid-rows-7 gap-1" style={{ marginTop: 4 }}>{gridCells}</div>
                 </div>
