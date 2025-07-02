@@ -48,7 +48,7 @@ const StreakHeatmap = () => {
         const cells = [];
         const monthLabels = [];
         const startDate = contributions[0].date;
-        const startDay = startDate.getDay();
+        const startDay = (startDate.getDay() + 6) % 7; // Aligns Monday as 0;
         // Fill empty cells for the first week
         for (let i = 0; i < startDay; i++) {
             cells.push(<div key={`empty-${i}`} style={{ width: CELL_SIZE, height: CELL_SIZE }} />);
