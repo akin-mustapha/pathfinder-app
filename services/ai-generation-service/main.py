@@ -10,7 +10,7 @@ class GenerationRequest(BaseModel):
 
 # --- API Router ---
 router = APIRouter(
-    prefix="/generate",
+    prefix="/api/ai",
     tags=["AI Generation"]
 )
 
