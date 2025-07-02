@@ -93,4 +93,10 @@
   .heatmap-cell--2 { background-color: #006d32; }
   .heatmap-cell--3 { background-color: #26a641; }
   .heatmap-cell--4 { background-color: #39d353; }
+
+  /* --- Roadmap Card --- */
+  .roadmap-card { @apply card flex flex-col justify-between h-full transition-transform transform hover:scale-105 cursor-pointer; }
+  .roadmap-card-title { @apply text-lg font-bold text-text-base mb-1; }
+  .progress-bar-track { @apply w-full h-2 bg-bg-muted rounded-full overflow-hidden; }
+  .progress-bar-fill { @apply h-2 bg-primary rounded-full transition-all duration-300; }
 }
