@@ -1,0 +1,73 @@
+# ==============================================================================
+# Gitignore for Pathfinder Monorepo (Node.js Frontend + Python Backend)
+# ==============================================================================
+
+### General ###
+
+# Environment variables
+# Ignore all .env files, but keep the example template
+.env
+.env.*
+!.env.example
+
+# Log files
+logs/
+*.log
+
+# IDE & Editor Folders
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ==============================================================================
+# Frontend (Node.js / Vite)
+# ==============================================================================
+
+# Dependencies
+/frontend/node_modules/
+
+# Build output
+/frontend/dist/
+/frontend/build/
+
+# Vite cache
+/frontend/.vite/
+
+# Debug logs
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test reports
+/frontend/coverage/
+/frontend/.nyc_output/
+
+# ==============================================================================
+# Backend (Python)
+# ==============================================================================
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments - ignore any venv folder within any service
+/services/*/.venv/
+/services/*/venv/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
