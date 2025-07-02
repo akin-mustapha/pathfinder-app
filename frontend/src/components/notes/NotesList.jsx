@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PlusCircle, Loader2, AlertTriangle, ArrowLeft } from 'lucide-react';
 import { notesData as mockNotes } from '../../data/mockData'; // Using mock data for now
 import NoteItem from './NoteItem';
-import NoteDetail from '../NoteDetail';
+import NoteDetail from './NoteDetail';
 import NoteEditor from './NoteEditor';
 
 const NotesList = () => {

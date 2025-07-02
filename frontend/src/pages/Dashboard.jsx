@@ -4,7 +4,7 @@ import {
     XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid 
 } from 'recharts';
 import { Book, CheckCircle, FileText, AlertTriangle, Loader2 } from 'lucide-react';
-import KPICard from '../components/KPICard';
+import KPICard from '../components/dashboard/KPICard';
 import StreakHeatmap from '../components/StreakHeatmap';
 
 // --- MOCK API DATA ---
