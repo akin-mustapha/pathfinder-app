@@ -1,9 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@uiw/react-md-editor/**/*.{js,jsx,ts,tsx}" // Add this line
+    "./index.html",
+    // "./node_modules/@uiw/react-md-editor/**/*.{js,jsx,ts,tsx}" // Add this line
   ],
   theme: {
     extend: {
