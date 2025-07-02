@@ -8,13 +8,23 @@ services:
       - "80:80"
     volumes:
       - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    # --- EXPAND THIS BLOCK ---
     depends_on:
       auth-service:
-        condition: service_healthy # Wait for the healthcheck to pass
+        condition: service_healthy
       roadmap-service:
-        condition: service_healthy # Wait for this one too
+        condition: service_healthy
       topic-service:
-        condition: service_healthy # And this one
+        condition: service_healthy
+      # Add the new services here
+      notes-service:
+        condition: service_healthy
+      learning-tools-service:
+        condition: service_healthy
+      ai-tutor-service:
+        condition: service_healthy
+      analytics-service:
+        condition: service_healthy
     networks:
       - pathfinder-net
 
@@ -74,7 +84,78 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
+  notes-service:
+    build:
+      context: ./services/notes-service
+    ports:
+      - "8004:8004"
+    environment:
+      - DYNAMODB_ENDPOINT_URL=http://dynamodb-local:8000
+    networks:
+      - pathfinder-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8004/api/notes/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
+  learning-tools-service:
+    build:
+      context: ./services/learning-tools-service
+    ports:
+      - "8005:8005"
+    environment:
+      - DYNAMODB_ENDPOINT_URL=http://dynamodb-local:8000
+    networks:
+      - pathfinder-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8005/api/learning-tools/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  ai-tutor-service:
+    build:
+      context: ./services/ai-tutor-service
+    ports:
+      - "8006:8006"
+    networks:
+      - pathfinder-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8006/api/tutor/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+      
+  # The AI Generation service is stateless and doesn't need a healthcheck for Nginx
+  # unless you plan to proxy API calls directly to it.
+  ai-generation-service:
+    build:
+      context: ./services/ai-generation-service
+    ports:
+      - "8007:8007"
+    networks:
+      - pathfinder-net
+
+  analytics-service:
+    build:
+      context: ./services/analytics-service
+    ports:
+      - "8008:8008"
+    environment:
+      - DYNAMODB_ENDPOINT_URL=http://dynamodb-local:8000
+      - RABBITMQ_HOST=rabbitmq
+    networks:
+      - pathfinder-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8008/api/analytics/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
   # 3. Local Infrastructure
   dynamodb-local:
     image: amazon/dynamodb-local:latest

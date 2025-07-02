@@ -1,4 +1,4 @@
-# Dependencies to add to requirements.txt:
+# In services/roadmap-service/requirements.txt:
 # fastapi, uvicorn[standard], pydantic, boto3, pika
 
 from fastapi import FastAPI, APIRouter, status
@@ -6,40 +6,25 @@ from pydantic import BaseModel
 from typing import List
 
 # --- Pydantic Models ---
-class Topic(BaseModel):
-    id: str
-    milestone_id: str
-    title: str
-    status: str # e.g., 'not_started', 'in_progress', 'completed'
+class Milestone(BaseModel): id: str; title: str; order: int
+class Roadmap(BaseModel): id: str; user_id: str; title: str; milestones: List[Milestone] = []
 
 # --- API Router ---
-router = APIRouter(
-    prefix="/api/topics",
-    tags=["Topics"]
-)
+router = APIRouter(prefix="/api/roadmaps", tags=["Roadmaps"])
 
 # --- Endpoints ---
 @router.get("/health", status_code=status.HTTP_200_OK)
 def health_check():
-    return {"status": "Topic Service is healthy"}
+    return {"status": "Roadmap Service is healthy"}
 
-@router.get("/by_milestone/{milestone_id}", response_model=List[Topic])
-async def get_topics_for_milestone(milestone_id: str):
-    """Lists all topics for a specific milestone."""
-    # TODO: Fetch topics from DynamoDB where milestone_id matches.
-    print(f"Fetching topics for milestone {milestone_id}")
-    return [
-        {"id": "topic-1", "milestone_id": milestone_id, "title": "Learn about state", "status": "completed"}
-    ]
+@router.get("/by_user/{user_id}", response_model=List[Roadmap])
+async def get_user_roadmaps(user_id: str):
+    # TODO: Fetch roadmaps and their milestones from DynamoDB for the user.
+    print(f"Fetching roadmaps for user {user_id}")
+    return [{"id": "r1", "user_id": user_id, "title": "My First Roadmap", "milestones": [{"id": "m1", "title": "The Basics", "order": 1}]}]
 
-@router.patch("/{topic_id}/status")
-async def update_topic_status(topic_id: str, new_status: dict):
-    """Updates a topic's status (for the Kanban board)."""
-    # TODO: 1. Update the topic's status in DynamoDB.
-    # TODO: 2. Publish a "topic.status_changed" event to RabbitMQ for analytics.
-    print(f"Updating topic {topic_id} to status {new_status.get('status')}")
-    return {"message": "Status updated"}
+# TODO: Add other CRUD endpoints for roadmaps and milestones.
 
 # --- FastAPI App Initialization ---
-app = FastAPI(title="Pathfinder Topic Service")
+app = FastAPI(title="Pathfinder Roadmap Service")
 app.include_router(router)
