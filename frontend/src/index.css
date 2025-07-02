@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* ================================================================================
   GLOBAL THEME DEFINITION
@@ -40,9 +38,45 @@
     @apply text-red-500 bg-yellow-200 p-4;
   }
   /* --- Buttons (Refactored to be self-contained) --- */
-  .btn-primary { @apply inline-flex items-center justify-center px-4 py-2 rounded-lg transition-colors focus:outline-none gap-2 bg-primary text-white hover:bg-primary-hover focus:ring-2 focus:ring-offset-2 focus:ring-offset-bg-base focus:ring-primary; }
-  .btn-secondary { @apply inline-flex items-center justify-center px-4 py-2 rounded-lg transition-colors focus:outline-none gap-2 bg-bg-muted text-text-base hover:bg-gray-600 focus:ring-2 focus:ring-offset-2 focus:ring-offset-bg-base focus:ring-white/50; }
-  .btn-danger { @apply inline-flex items-center justify-center px-4 py-2 rounded-lg transition-colors focus:outline-none gap-2 bg-status-danger text-white hover:bg-red-600 focus:ring-2 focus:ring-offset-2 focus:ring-offset-bg-base focus:ring-status-danger; }
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg transition-colors focus:outline-none gap-2 text-white focus:ring-2 focus:ring-offset-2;
+    background-color: #3b82f6;
+    border: none;
+  }
+  .btn-primary:hover {
+    background-color: #2563eb;
+  }
+  .btn-primary:focus {
+    ring-color: #3b82f6;
+    ring-offset-color: #111827;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg transition-colors focus:outline-none gap-2 focus:ring-2 focus:ring-offset-2;
+    background-color: #374151;
+    color: #f9fafb;
+    border: none;
+  }
+  .btn-secondary:hover {
+    background-color: #4b5563;
+  }
+  .btn-secondary:focus {
+    ring-color: rgba(255, 255, 255, 0.5);
+    ring-offset-color: #111827;
+  }
+  
+  .btn-danger {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg transition-colors focus:outline-none gap-2 text-white focus:ring-2 focus:ring-offset-2;
+    background-color: #ef4444;
+    border: none;
+  }
+  .btn-danger:hover {
+    background-color: #dc2626;
+  }
+  .btn-danger:focus {
+    ring-color: #ef4444;
+    ring-offset-color: #111827;
+  }
 
   /* .icon-button-default { @apply p-2 rounded-full transition-colors text-text-muted hover:text-text-base hover:bg-bg-muted; }
   .icon-button-danger { @apply p-2 rounded-full transition-colors text-text-muted hover:text-status-danger hover:bg-bg-muted; } */
