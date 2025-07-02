@@ -6,40 +6,58 @@ from pydantic import BaseModel
 from typing import List
 
 # --- Pydantic Models ---
-class Topic(BaseModel):
+class Roadmap(BaseModel):
     id: str
-    milestone_id: str
+    user_id: str
     title: str
-    status: str # e.g., 'not_started', 'in_progress', 'completed'
+    description: str
+    created_at: str
+
+class Milestone(BaseModel):
+    id: str
+    roadmap_id: str
+    title: str
+    description: str
+    order: int
 
 # --- API Router ---
 router = APIRouter(
-    prefix="/api/topics",
-    tags=["Topics"]
+    prefix="/api/roadmaps",
+    tags=["Roadmaps"]
 )
 
 # --- Endpoints ---
 @router.get("/health", status_code=status.HTTP_200_OK)
 def health_check():
-    return {"status": "Topic Service is healthy"}
+    return {"status": "Roadmap Service is healthy"}
 
-@router.get("/by_milestone/{milestone_id}", response_model=List[Topic])
-async def get_topics_for_milestone(milestone_id: str):
-    """Lists all topics for a specific milestone."""
-    # TODO: Fetch topics from DynamoDB where milestone_id matches.
-    print(f"Fetching topics for milestone {milestone_id}")
+@router.get("/", response_model=List[Roadmap])
+async def get_user_roadmaps(user_id: str = "default"):
+    """Lists all roadmaps for a user."""
+    # TODO: Fetch roadmaps from DynamoDB where user_id matches.
+    print(f"Fetching roadmaps for user {user_id}")
     return [
-        {"id": "topic-1", "milestone_id": milestone_id, "title": "Learn about state", "status": "completed"}
+        {"id": "rm-1", "user_id": user_id, "title": "React Mastery", "description": "Learn React from basics to advanced", "created_at": "2023-10-01"}
     ]
 
-@router.patch("/{topic_id}/status")
-async def update_topic_status(topic_id: str, new_status: dict):
-    """Updates a topic's status (for the Kanban board)."""
-    # TODO: 1. Update the topic's status in DynamoDB.
-    # TODO: 2. Publish a "topic.status_changed" event to RabbitMQ for analytics.
-    print(f"Updating topic {topic_id} to status {new_status.get('status')}")
-    return {"message": "Status updated"}
+@router.get("/{roadmap_id}/milestones", response_model=List[Milestone])
+async def get_roadmap_milestones(roadmap_id: str):
+    """Lists all milestones for a specific roadmap."""
+    # TODO: Fetch milestones from DynamoDB where roadmap_id matches.
+    print(f"Fetching milestones for roadmap {roadmap_id}")
+    return [
+        {"id": "m-1", "roadmap_id": roadmap_id, "title": "React Fundamentals", "description": "Basic React concepts", "order": 1}
+    ]
+
+@router.post("/generate")
+async def generate_roadmap_with_ai(request: dict):
+    """Generates a roadmap structure using AI and saves it."""
+    # TODO: 1. Call the AI Generation Service with the request data.
+    # TODO: 2. Save the generated roadmap structure to DynamoDB.
+    # TODO: 3. Publish a "roadmap.created" event to RabbitMQ.
+    print(f"Generating roadmap for: {request.get('subject', 'Unknown')}")
+    return {"message": "Roadmap generation started"}
 
 # --- FastAPI App Initialization ---
-app = FastAPI(title="Pathfinder Topic Service")
+app = FastAPI(title="Pathfinder Roadmap Service")
 app.include_router(router)

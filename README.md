@@ -1,214 +1,199 @@
-# Project Pathfinder: Project Information & Plan
+# Pathfinder - AI-Powered Learning Platform
 
 **Version:** 1.2 (Analytics & Gamification Update)
-**Date:** October 26, 2023
-
-This document serves as the single source of truth for the Pathfinder project, outlining its vision, technical architecture, operational plan, and a detailed Agile roadmap.
-
----
-
-## 1. Project Vision & Requirements
-
-### 1.1. Vision
 
 Pathfinder is a modern, AI-augmented web application designed to transform how individuals approach learning. It allows users to generate dynamic learning roadmaps, track their progress, engage with an interactive AI tutor, build a personal knowledge base, and stay motivated through a personalized analytics dashboard and gamified streak tracking.
 
-### 1.2. Functional Requirements
+## 🚀 Features
 
-- **User Management:** Users must be able to register, log in, and manage their accounts.
-- **Roadmap Management:** Users must be able to create, view, and manage learning roadmaps, milestones, and topics.
-- **AI-Powered Content:** The system must generate roadmaps, persistent practice questions, and flashcards using an LLM.
-- **Knowledge Base:** Users must be able to create, edit, format, tag, and link notes.
-- **AI Tutor:** The system must provide a real-time, conversational AI tutor.
-- **Progress Tracking:** Users must be able to visually track progress via a Kanban board.
-- **Analytics Dashboard:** The dashboard must display key metrics and visualizations of the user's learning activity.
-- **Gamification:** The system must track and display a user's daily learning streak to encourage consistent engagement.
+- **🗺️ Dynamic Roadmaps**: Create and manage learning roadmaps with AI assistance
+- **📊 Analytics Dashboard**: Track your learning progress with beautiful visualizations
+- **🔥 Streak Tracking**: GitHub-style activity heatmap to maintain learning consistency
+- **📝 Knowledge Base**: Rich markdown notes with tagging and linking
+- **🤖 AI Tutor**: Interactive AI assistant for learning support
+- **📋 Kanban Board**: Visual progress tracking for your learning topics
+- **🎯 Goal Setting**: Milestones and topics with status tracking
 
-### 1.3. Non-Functional Requirements
+## 🏗️ Architecture
 
-- **Architecture:** The backend will be a set of independent, containerized microservices communicating via APIs and an event bus.
-- **Cloud-Ready Design:** The system is designed for a future cloud migration by using environment variables for all configuration.
-- **Reliability:** The system will have automated testing (CI) and a clear development workflow.
-- **Security:** User authentication must be secure (JWTs), and all services will operate within a private, containerized network.
+Pathfinder follows a microservices architecture with the following components:
 
----
+### Frontend
+- **React 19** with Vite for fast development
+- **TailwindCSS** for styling
+- **Recharts** for data visualization
+- **React Router** for navigation
+- **Lucide React** for icons
 
-## 2. System & Operational Architecture
+### Backend Services
+- **Auth Service** (Port 8001) - User authentication and authorization
+- **Roadmap Service** (Port 8002) - Roadmap and milestone management
+- **Topic Service** (Port 8003) - Topic management and status tracking
+- **Notes Service** (Port 8004) - Knowledge base and note management
+- **AI Generation Service** (Port 8005) - AI-powered content generation
+- **AI Tutor Service** (Port 8006) - Interactive AI tutoring
+- **Learning Tools Service** (Port 8007) - Practice questions and flashcards
+- **Analytics Service** (Port 8008) - User activity analytics and metrics
 
-### 2.1. Microservices Architecture Diagram (with Event Bus)
+### Infrastructure
+- **Nginx** - API Gateway and reverse proxy
+- **DynamoDB Local** - Local database for development
+- **RabbitMQ** - Event bus for service communication
+- **Docker & Docker Compose** - Containerization and orchestration
 
-*This diagram shows the logical separation of services and their communication via direct API calls and an event bus (RabbitMQ).*
+## 🛠️ Quick Start
 
-```plaintext
-      ┌────────────────────┐
-      │   User's Browser   │
-      └─────────┬──────────┘
-                │
-                ▼
-      ┌────────────────────┐
-      │    API Gateway     │
-      │    (e.g., Nginx)   │
-      └─────────┬──────────┘
-┌───────────────┼─────────────────┼────────────────────┐
-│(API Calls)    │                 │                    │
-▼               ▼                 ▼                    ▼
-┌───────────┐ ┌──────────┐  ┌───────────┐ ┌────────────┐ ...etc
-│  Auth     │ │ Roadmap  │  │   Topic   │ │   Notes    │
-│  Service  │ │ Service  │  │  Service  │ │  Service   │
-└───────────┘ └──────────┘  └─────┬─────┘ └────────────┘
-                                  │ (Publishes event: 'topic_completed')
-                                  ▼
-                            ┌───────────┐
-                            │ RabbitMQ  │
-                            │(Event Bus)│
-                            └─────┬─────┘
-                                  │ (Subscribes to all events)
-                                  ▼
-                            ┌───────────┐
-                            │  Analytics│
-                            │  Service  │
-                            └───────────┘
-```
+### Prerequisites
 
-### 2.2. Local Operational Architecture
+- Docker and Docker Compose
+- Node.js 18+ (for frontend development)
+- Git
 
-*The local architecture remains the same, with the new **Analytics Service** added as another container in the `docker-compose.yml` file, connected to the `pathfinder-net` network and subscribing to **RabbitMQ**.*
+### Setup
 
----
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd pathfinder-app
+   ```
 
-## 3. Project & Code Structure (Monorepo)
+2. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   # Edit .env and add your OpenAI API key if you want AI features
+   ```
 
-*The `services` directory will now include a `analytics-service` folder.*
+3. **Start the entire application**
+   ```bash
+   docker-compose up -d
+   ```
+
+4. **For frontend development** (optional)
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+### Accessing the Application
+
+- **Frontend**: http://localhost:3000
+- **API Gateway**: http://localhost:80
+- **RabbitMQ Management**: http://localhost:15672 (guest/guest)
+- **DynamoDB Local**: http://localhost:8000
+
+### Individual Service URLs
+
+- Auth Service: http://localhost:8001
+- Roadmap Service: http://localhost:8002
+- Topic Service: http://localhost:8003
+- Notes Service: http://localhost:8004
+- AI Generation Service: http://localhost:8005
+- AI Tutor Service: http://localhost:8006
+- Learning Tools Service: http://localhost:8007
+- Analytics Service: http://localhost:8008
+
+## 🧪 Development
+
+### Frontend Development
 
 ```bash
-pathfinder-app/
-├── .github/
-│   └── workflows/
-│
-├── docker-compose.yml
-│
-├── frontend/
-│
-├── services/
-│   ├── auth-service/
-│   ├── ... (other services)
-│   └── analytics-service/  # New service
-│
-└── infra/
-    └── nginx/
+cd frontend
+npm run dev    # Start development server
+npm run build  # Build for production
+npm run lint   # Run linting
 ```
 
----
+### Backend Development
 
-## 4. Agile Plan: Epics, User Stories & Tasks
+Each service can be developed independently:
 
-### Epic 0: DevOps & Project Foundation (Local-First Edition)
+```bash
+cd services/<service-name>
+pip install -r requirements.txt
+uvicorn main:app --reload --port <service-port>
+```
 
-*A foundational epic to establish the core local development environment, containerization, and testing strategy to enable reliable development and prepare for a future cloud migration.*
+### Testing
 
-- **0.1:** As a developer, I want to containerize each microservice with a `Dockerfile` so its dependencies are isolated and portable.
-- **0.2:** As a developer, I want to orchestrate all local services (app, database, queue) with a single command using a master `docker-compose.yml` file.
-- **0.3:** As a developer, I want a local API Gateway (`Nginx`) to route requests to the correct service container based on the URL.
-- **0.4:** As a developer, I want every pull request to be automatically tested in a clean, containerized environment using GitHub Actions.
-- **0.5:** As a developer, I want all application code to be cloud-agnostic by using environment variables for all service endpoints and credentials.
+```bash
+# Run all services
+docker-compose up
 
-### Epic 1: The Foundation - Core Services & Manual Planning
+# Test individual service health
+curl http://localhost:8001/api/auth/health
+curl http://localhost:8002/api/roadmaps/health
+# ... etc for other services
+```
 
-*Establish the essential services needed for a user to manually create a fully structured roadmap.*
+## 📁 Project Structure
 
-- **1.1:** As a user, I want to sign up for an account and log in.
-  - **Task:** Build and containerize the **Auth Service**.
-  - **Task:** Define its database schema (`users` table) and set up the DynamoDB Local instance.
-  - **Task:** Implement `/register` and `/login` API endpoints. The login endpoint must generate a JWT.
-  - **Task:** Configure the Nginx gateway to route `/api/auth/...` traffic to the Auth Service.
-  - **Task:** Instrument the service to publish a `user.registered` event to RabbitMQ.
-  - **Task:** Build the frontend Signup and Login pages.
-- **1.2:** As a user, I want to create, view, edit, and delete roadmaps and their milestones.
-  - **Task:** Build and containerize the **Roadmap Service**.
-  - **Task:** Define its database schema (`roadmaps`, `milestones` tables).
-  - **Task:** Implement full CRUD API endpoints for roadmaps and milestones (e.g., `POST /api/roadmaps`, `GET /api/roadmaps/{id}/milestones`).
-  - **Task:** Secure all endpoints by requiring and validating a JWT.
-  - **Task:** Instrument the service to publish `roadmap.created` and `milestone.created` events.
-- **1.3:** As a user, I want to add, edit, and delete topics within a milestone.
-  - **Task:** Build and containerize the **Topic Service**.
-  - **Task:** Define its database schema (`topics` table with a `status` field).
-  - **Task:** Implement full CRUD API endpoints for topics (e.g., `POST /api/milestones/{id}/topics`).
-  - **Task:** Secure all endpoints.
-  - **Task:** Instrument the service to publish `topic.created` and `topic.status_changed` events.
+```
+pathfinder-app/
+├── frontend/                 # React frontend application
+│   ├── src/
+│   │   ├── components/      # Reusable UI components
+│   │   ├── pages/          # Page components
+│   │   └── ...
+│   └── package.json
+├── services/                # Backend microservices
+│   ├── auth-service/
+│   ├── roadmap-service/
+│   ├── topic-service/
+│   ├── notes-service/
+│   ├── ai-generation-service/
+│   ├── ai-tutor-service/
+│   ├── learning-tools-service/
+│   └── analytics-service/
+├── infra/
+│   └── nginx/              # API Gateway configuration
+├── docker-compose.yml      # Container orchestration
+└── README.md
+```
 
-### Epic 2: The Knowledge Engine - The Notes Service
+## 🔧 Configuration
 
-*Enable users to create a rich, interconnected knowledge base.*
+### Environment Variables
 
-- **2.1:** As a user, I want to create, edit, and delete private notes with rich formatting.
-  - **Task:** Build and containerize the **Notes Service**.
-  - **Task:** Define its database schema (`notes` table, with a `content` field for Markdown).
-  - **Task:** Implement full CRUD API endpoints for notes.
-  - **Task:** On the frontend, integrate a rich Markdown editor component (`react-md-editor`).
-  - **Task:** Instrument the service to publish a `note.created` event.
-- **2.2:** As a user, I want to organize notes with tags.
-  - **Task (Backend):** Add `tags` and `note_tags` (join) tables to the Notes Service database.
-  - **Task (Backend):** Implement API endpoints to add/remove tags from a specific note.
-  - **Task (Frontend):** Build a tag input UI component on the note editor page.
-- **2.3:** As a user, I want to link a note to a specific topic on my roadmap.
-  - **Task (Backend):** Add a `topic_note_links` table to the Notes Service database.
-  - **Task (Backend):** Implement API endpoints to create/delete these links.
-  - **Task (Frontend):** On the topic detail view, display a list of linked notes and provide a way to add new links.
+Key environment variables (see `.env.example`):
 
-### Epic 3: The AI Assistant - Generation & Tutoring
+- `OPENAI_API_KEY`: Required for AI services
+- `DYNAMODB_ENDPOINT_URL`: DynamoDB connection
+- `RABBITMQ_HOST`: RabbitMQ connection
 
-*Infuse the application with AI to automate content creation and provide interactive learning support.*
+### Service Configuration
 
-- **3.1:** As a user, I want the AI to generate a complete roadmap structure for me from a prompt.
-  - **Task:** Build and containerize the stateless **AI Generation Service**.
-  - **Task:** Craft a detailed system prompt for the LLM to ensure it returns a structured JSON response.
-  - **Task:** Implement an endpoint in the **Roadmap Service** (`POST /api/roadmaps/generate`) that calls the AI service and then populates its own database with the result.
-- **3.2:** As a user, I want to chat with an AI tutor about any topic.
-  - **Task:** Build and containerize the **AI Tutor Service**.
-  - **Task:** Define its database schema (`chat_messages` table).
-  - **Task:** Implement a WebSocket endpoint to handle real-time, streaming conversations.
-  - **Task:** The service must fetch conversation history to provide context to the LLM.
-  - **Task (Frontend):** Build a chat modal UI component.
-- **3.3:** As a user, I want to generate and interact with persistent practice questions.
-  - **Task:** Build and containerize the **Learning Tools Service**.
-  - **Task:** Define its database schema (`practice_questions` table).
-  - **Task:** Implement CRUD API endpoints for managing questions.
-  - **Task:** Create an orchestrating endpoint in the **Topic Service** that calls the AI service, then saves the results to the Learning Tools Service.
-- **3.4:** As a user, I want to generate and study with persistent flashcards.
-  - **Task (Backend):** Add a `flashcards` table and CRUD endpoints to the **Learning Tools Service**.
-  - **Task (Backend):** Implement the orchestration endpoint in the **Topic Service**.
-  - **Task (Frontend):** Build an interactive flashcard viewer component.
-- **3.5:** As a user in the AI Tutor chat, I want to save highlighted text directly to a note.
-  - **Task (Frontend):** Add logic to the chat UI to detect text selection and show a "Save to Note" button.
-  - **Task (Frontend):** Build a modal to allow the user to create a new note or select an existing one (by fetching a list from the **Notes Service**).
-  - **Task (Frontend):** Implement the logic to call the appropriate `POST` or `PUT` endpoint on the Notes Service.
+Each service is configured via environment variables and can be customized in the `docker-compose.yml` file.
 
-### Epic 4: The Control Panel - Visualization & Progress Tracking
+## 🤝 Contributing
 
-*Provide users with clear, visual tools to manage their learning workflow.*
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-- **4.1:** As a user, I want to track progress with a Kanban board.
-  - **Task (Backend):** Create a new endpoint in the **Topic Service** (`GET /api/roadmaps/{id}/board`) that returns all topics for a roadmap, pre-grouped by status.
-  - **Task (Frontend):** Build a dedicated Kanban board page using a drag-and-drop library (`dnd-kit`).
-  - **Task (Frontend):** On drop, call the existing `PATCH /api/topics/{id}` endpoint to update the topic's status.
-- **4.2:** As a user, I want to see visual progress bars for milestones and roadmaps.
-  - **Task (Backend):** Enhance the API endpoints that fetch roadmaps and milestones to include completion statistics (e.g., `{ "total_topics": 20, "completed_topics": 5 }`).
-  - **Task (Frontend):** Create a reusable progress bar component to display this data.
+## 📄 License
 
-### Epic 5: The Analytics Dashboard & Gamification
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-*Create a dedicated dashboard to provide users with motivational metrics and visualizations of their learning journey.*
+## 🆘 Troubleshooting
 
-- **5.1:** As a developer, I need a dedicated service to process and store analytics data.
-  - **Task:** Build, test, and containerize the **Analytics Service**.
-  - **Task:** Define its database schema (`user_stats`, `daily_activity_log` tables).
-  - **Task:** Implement logic for the service to subscribe to events from RabbitMQ and update its database.
-  - **Task:** Create API endpoints to expose the aggregated data to the frontend dashboard.
-- **5.2:** As a user, I want to see a dashboard with visualizations of my learning activity.
-  - **Task:** Design and create a new "Dashboard" page in the frontend React application.
-  - **Task:** Implement **KPI Cards** for high-level counts ("Total Roadmaps," "Topics Completed").
-  - **Task:** Implement a **Pie Chart** showing the breakdown of topic statuses.
-  - **Task:** Implement a **Bar Chart** showing "Activity in the Last 7 Days."
-- **5.3:** As a user, I want to track my daily learning streak.
-  - **Task:** Implement a **GitHub-style Activity Heatmap** visualization.
-  - **Task:** The frontend will fetch data from the Analytics Service and render a grid of the past year, coloring each day based on activity level.
+### Common Issues
+
+1. **Services not starting**: Check Docker daemon is running
+2. **Port conflicts**: Ensure ports 3000, 8001-8008, 80, 5672, 15672, 8000 are available
+3. **AI services failing**: Ensure OPENAI_API_KEY is set in .env file
+4. **Database issues**: Try `docker-compose down -v` to reset volumes
+
+### Logs
+
+```bash
+# View all service logs
+docker-compose logs
+
+# View specific service logs
+docker-compose logs <service-name>
+```
+
+For more detailed information, see [project-info.md](project-info.md).
