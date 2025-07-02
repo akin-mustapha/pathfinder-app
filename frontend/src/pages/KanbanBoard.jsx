@@ -1,48 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { SortableContext, useSortable, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, Loader2, AlertTriangle } from 'lucide-react';
-
-// --- Reusable Child Components for the Kanban Board ---
-
-const SortableTopicCard = ({ id, title }) => {
-    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
-
-    const style = {
-        transform: CSS.Transform.toString(transform),
-        transition,
-    };
-
-    return (
-        <div ref={setNodeRef} style={style} {...attributes} className="kanban-card">
-            <p className="font-medium text-sm flex-grow pr-2">{title}</p>
-            <div {...listeners} className="kanban-card-handle">
-                <GripVertical size={16} />
-            </div>
-        </div>
-    );
-};
-
-const KanbanColumn = ({ id, title, topics, statusColor }) => {
-    return (
-        <div className="kanban-column">
-            <div className={`kanban-column-header ${statusColor}`}>
-                <h3>{title}</h3>
-                <span className="kanban-column-counter">
-                    {topics.length}
-                </span>
-            </div>
-            <div className="kanban-column-body">
-                <SortableContext items={topics.map(t => t.id)} strategy={verticalListSortingStrategy}>
-                    {topics.map(topic => (
-                        <SortableTopicCard key={topic.id} id={topic.id} title={topic.title} />
-                    ))}
-                </SortableContext>
-            </div>
-        </div>
-    );
-};
+import { arrayMove } from '@dnd-kit/sortable';
+import { Loader2, AlertTriangle } from 'lucide-react';
+import KanbanColumn from '../components/kanban/KanbanColumn';
 
 // --- Main Kanban Board Page Component ---
 
