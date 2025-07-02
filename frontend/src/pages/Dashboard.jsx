@@ -75,9 +75,9 @@ const Dashboard = () => {
 
     return (
         <>
-            <header className="mb-8">
-                <h1 className="text-4xl font-bold">Dashboard</h1>
-                <p className="text-text-muted mt-1">A snapshot of your learning journey.</p>
+            <header className="dashboard-header">
+                <h1 className="dashboard-title">Dashboard</h1>
+                <p className="dashboard-subtitle">A snapshot of your learning journey.</p>
             </header>
             
             {/* KPI Cards now use the KPICard component which should also be updated to use semantic classes */}
@@ -105,16 +105,11 @@ const Dashboard = () => {
                     linkTo="/kb"
                 />
             </div>
-
-            {/* Main Dashboard Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Left Column */}
-                <div className="lg:col-span-2 flex flex-col gap-8">
-                    {/* The StreakHeatmap component should be refactored to use the new theme colors */}
+            <div className="dashboard-main-grid">
+                <div className="dashboard-main-col">
                     <StreakHeatmap />
-                    
-                    <div className="card"> {/* Using semantic .card class */}
-                        <h3 className="text-lg font-semibold mb-4">Recent Activity (Last 7 Days)</h3>
+                    <div className="dashboard-card">
+                        <h3 className="dashboard-card-title">Recent Activity (Last 7 Days)</h3>
                         <ResponsiveContainer width="100%" height={300}>
                             <LineChart data={data.recentActivity} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="var(--color-bg-muted)" />
@@ -127,11 +122,9 @@ const Dashboard = () => {
                         </ResponsiveContainer>
                     </div>
                 </div>
-                
-                {/* Right Column */}
-                <div className="flex flex-col gap-8">
-                    <div className="card"> {/* Using semantic .card class */}
-                        <h3 className="text-lg font-semibold mb-4">Topic Status Breakdown</h3>
+                <div className="dashboard-side-col">
+                    <div className="dashboard-card">
+                        <h3 className="dashboard-card-title">Topic Status Breakdown</h3>
                         <ResponsiveContainer width="100%" height={250}>
                             <PieChart>
                                 <Pie data={data.topicStatus} cx="50%" cy="50%" innerRadius={60} outerRadius={90} dataKey="value" nameKey="name">
@@ -142,9 +135,8 @@ const Dashboard = () => {
                             </PieChart>
                         </ResponsiveContainer>
                     </div>
-
-                    <div className="card"> {/* Using semantic .card class */}
-                         <h3 className="text-lg font-semibold mb-4">Roadmap Progress</h3>
+                    <div className="dashboard-card">
+                         <h3 className="dashboard-card-title">Roadmap Progress</h3>
                          <ResponsiveContainer width="100%" height={300}>
                             <BarChart data={data.roadmapProgress} layout="vertical" margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="var(--color-bg-muted)" />

@@ -10,17 +10,23 @@ const Sidebar = () => {
         { name: 'Knowledge Base', path: '/kb', icon: <Notebook size={24} /> },
     ];
     return (
-        <aside className="layout-sidebar">
-            <div className="flex items-center gap-3 mb-10">
-                <Book className="text-primary" size={32} />
-                <h1 className="text-2xl font-bold hidden lg:block">Pathfinder</h1>
+        <aside className="sidebar-container">
+            <div className="sidebar-header">
+                <Book className="sidebar-logo" size={32} />
+                <h1 className="sidebar-title">Pathfinder</h1>
             </div>
-            <nav className="flex flex-col gap-3">
+            <nav className="sidebar-nav">
                 {navItems.map(item => (
-                    <NavLink key={item.name} to={item.path} end
-                        className={({ isActive }) => `btn justify-start ${isActive ? 'btn-primary' : 'btn-secondary bg-transparent text-text-muted hover:bg-bg-muted hover:text-text-base'}`}
+                    <NavLink
+                        key={item.name}
+                        to={item.path}
+                        end
+                        className={({ isActive }) =>
+                            `sidebar-link ${isActive ? 'sidebar-link--active' : 'sidebar-link--inactive'}`
+                        }
                     >
-                        {item.icon}<span className="font-semibold hidden lg:block">{item.name}</span>
+                        {item.icon}
+                        <span className="hidden lg:block">{item.name}</span>
                     </NavLink>
                 ))}
             </nav>
