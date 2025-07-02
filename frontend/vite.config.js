@@ -2,10 +2,20 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
+import autoprefixer from 'autoprefixer'
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react()],
+  css: {
+    postcss: {
+      plugins: [
+        tailwindcss, // Use the new package name
+        autoprefixer,
+      ],
+    },
+  },
 
   // This section is the crucial fix for your 404 errors.
   // It tells the Vite development server how to handle API requests.
