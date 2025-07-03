@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@import "./styling/kanban.css";
+@import "./styling/kpiCard.css";
+@import "./styling/dashboard.css";
+@import "./styling/sidebar.css";
+@import "./styling/heatmap.css";
+/* ================================================================================
+  GLOBAL THEME DEFINITION
+================================================================================
+*/
+:root {
+  /* Hex values */
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-primary-focus: #1d4ed8;
+  --color-bg-base: #111827;
+  --color-bg-surface: #1f2937;
+  --color-bg-muted: #374151;
+  --color-text-base: #f9fafb;
+  --color-text-muted: #9ca3af;
+  --color-text-accent: #60a5fa;
+  --color-status-success: #22c55e;
+  --color-status-warning: #f59e0b;
+  --color-status-danger: #ef4444;
+
+  /* RGB values for opacity */
+  --color-primary-focus-rgb: 29, 78, 216;
+  --color-bg-surface-rgb: 31, 41, 55;
+  --color-bg-base-rgb: 17, 24, 39;
+  --color-status-danger-rgb: 239, 68, 68;
+}
+
+/* ================================================================================
+  SEMANTIC COMPONENT CLASSES
+================================================================================
+*/
+@layer components {
+  /* --- Buttons --- */
+  .btn-primary { @apply inline-flex items-center justify-center px-4 py-2 rounded-lg transition-colors focus:outline-none gap-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500; }
+  .btn-secondary { @apply inline-flex items-center justify-center px-4 py-2 rounded-lg transition-colors focus:outline-none gap-2 bg-gray-700 text-gray-100 hover:bg-gray-600 focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50; }
+  .btn-danger { @apply inline-flex items-center justify-center px-4 py-2 rounded-lg transition-colors focus:outline-none gap-2 bg-red-500 text-white hover:bg-red-600 focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-red-500; }
+
+  .icon-button-default { @apply p-2 rounded-full transition-colors text-gray-400 hover:text-gray-100 hover:bg-gray-700; }
+  .icon-button-danger { @apply p-2 rounded-full transition-colors text-gray-400 hover:text-red-500 hover:bg-gray-700; }
+
+  /* --- Cards --- */
+  .card { @apply bg-gray-800 p-6 rounded-xl shadow-lg; }
+
+  /* --- Form Inputs --- */
+  .input-base { @apply w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-gray-100 focus:ring-blue-500 focus:border-blue-500 transition-colors; }
+
+  /* --- Main Layout --- */
+  .layout-container { @apply h-screen bg-gray-900 text-gray-100 font-sans flex p-4 gap-4; }
+  .layout-sidebar { @apply bg-gray-800/50 backdrop-blur-sm w-20 lg:w-64 p-4 lg:p-6 flex flex-col rounded-xl shrink-0; }
+  .layout-main { @apply flex-1 bg-gray-800/50 backdrop-blur-sm rounded-xl flex flex-col; }
+  .layout-main-content { @apply p-6 lg:p-8 overflow-y-auto h-full; }
+
+
+
+}

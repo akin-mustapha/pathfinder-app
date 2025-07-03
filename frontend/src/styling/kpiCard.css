@@ -1,0 +1,12 @@
+@layer compnents {
+
+    /* --- Dashboard KPI Card --- */
+    .kpi-card { @apply bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col justify-center transition-transform transform hover:scale-105; }
+    .kpi-card--linkable { @apply cursor-pointer border-2 border-transparent; }
+    .kpi-card--linkable:hover { @apply border-blue-500; }
+    .kpi-card-content { @apply flex items-center gap-4; }
+    .kpi-card-icon { @apply p-3 rounded-full flex items-center justify-center; }
+    .kpi-card-title { @apply text-sm font-medium text-gray-400; }
+    .kpi-card-value { @apply text-3xl font-bold text-gray-100; }
+    .kpi-card-unit { @apply text-lg ml-2 font-medium text-gray-400; }
+}

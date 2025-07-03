@@ -1,0 +1,12 @@
+@layer component {
+    /* --- Dashboard (Prototype Conformant) --- */
+    .dashboard-header { @apply mb-8; }
+    .dashboard-title { @apply text-4xl font-bold text-white; }
+    .dashboard-subtitle { @apply text-gray-400 mt-1; }
+    .dashboard-kpi-grid { @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8; }
+    .dashboard-main-grid { @apply grid grid-cols-1 lg:grid-cols-3 gap-8; }
+    .dashboard-main-col { @apply lg:col-span-2 flex flex-col gap-8; }
+    .dashboard-side-col { @apply flex flex-col gap-8; }
+    .dashboard-card { @apply bg-gray-800 p-6 rounded-2xl shadow-lg; }
+    .dashboard-card-title { @apply text-white text-lg font-semibold mb-4; }
+}
