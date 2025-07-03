@@ -1,7 +1,7 @@
 import React from 'react';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import SortableTopicCard from './SortableTopicCard';
-
+import { DndContext, DragOverlay } from '@dnd-kit/core';
 const KanbanColumn = ({ id, title, topics, statusColor }) => {
     return (
         <div className="kanban-column">

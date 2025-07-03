@@ -1,0 +1,92 @@
+@layer components{
+    .kanban-board-grid {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(260px, 1fr);
+        gap: 2rem;
+        overflow-x: auto;
+        padding-bottom: 1rem;
+        align-items: start;
+        min-height: 400px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-primary, #3b82f6) #222;
+    }
+
+    .kanban-column {
+        background: var(--color-bg-surface, #23272f);
+        border-radius: 1rem;
+        padding: 1rem;
+        min-width: 260px;
+        max-width: 320px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+        height: 100%;
+        border: 2px solid transparent;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .kanban-column:hover {
+        box-shadow: 0 4px 16px 0 rgba(0,0,0,0.12);
+    }
+
+    .kanban-column.border-status-danger { border-color: var(--color-status-danger, #ef4444); }
+    .kanban-column.border-status-warning { border-color: var(--color-status-warning, #f59e0b); }
+    .kanban-column.border-status-success { border-color: var(--color-status-success, #22c55e); }
+
+    .kanban-column-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.75rem;
+        background: var(--color-primary, #3b82f6);
+        color: #fff;
+    }
+
+    .kanban-column-counter {
+        background: rgba(0,0,0,0.15);
+        border-radius: 999px;
+        padding: 0.2em 0.8em;
+        font-size: 0.85em;
+        font-weight: 500;
+    }
+
+    .kanban-column-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        overflow-y: auto;
+    }
+    .kanban-card {
+        @apply flex items-center bg-gray-700 rounded-lg px-3 py-2 shadow transition hover:bg-gray-600 cursor-pointer;
+        margin-bottom: 0.5rem;
+        min-height: 48px;
+        gap: 0.5rem;
+    }
+    .kanban-card-content {
+        @apply flex flex-col flex-grow;
+        min-width: 0;
+    }
+    .kanban-card-title {
+        @apply font-medium text-sm truncate;
+    }
+    .kanban-card-boards {
+        @apply flex flex-wrap gap-1 mt-1;
+    }
+    .kanban-card-board-badge {
+        @apply bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full;
+        white-space: nowrap;
+    }
+    .kanban-card-handle {
+        @apply flex items-center cursor-grab pl-2;
+        color: #9ca3af;
+    }
+    .kanban-card-handle:active {
+        @apply cursor-grabbing;
+    }
+}
